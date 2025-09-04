@@ -1,6 +1,7 @@
 package signalfx
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"net/http"
@@ -11,8 +12,7 @@ import (
 const APMTopologyURL = "/v2/apm/topology"
 
 func (c *Client) ListTopology(ctx context.Context, req *apm.RetrieveServiceTopologyRequest) (*apm.RetrieveServiceTopologyResponse, error) {
-	content := c.leaseBuffer()
-	defer c.releaseBuffer(content)
+	content := bytes.NewBuffer(nil)
 
 	if err := json.NewEncoder(content).Encode(req); err != nil {
 		return nil, err

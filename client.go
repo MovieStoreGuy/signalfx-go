@@ -110,13 +110,3 @@ func (c *Client) doRequestWithToken(ctx context.Context, method string, path str
 
 	return c.httpClient.Do(req)
 }
-
-func (c *Client) leaseBuffer() *bytes.Buffer {
-	buff := c.pool.Get().(*bytes.Buffer)
-	buff.Reset()
-	return buff
-}
-
-func (c *Client) releaseBuffer(buff *bytes.Buffer) {
-	c.pool.Put(buff)
-}
